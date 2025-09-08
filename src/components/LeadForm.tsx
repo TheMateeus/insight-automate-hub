@@ -53,12 +53,12 @@ export function LeadForm() {
   };
 
   return (
-    <section className="py-20 bg-background">
+    <section className="py-20 bg-insight-gray">
       <div className="container mx-auto px-4">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              Comece Sua <span className="text-primary">Automação</span> Hoje
+              Comece Sua <span className="text-insight-dark">Automação</span> Hoje
             </h2>
             <p className="text-lg text-muted-foreground">
               Preencha o formulário abaixo e receba uma proposta personalizada 
@@ -66,7 +66,7 @@ export function LeadForm() {
             </p>
           </div>
           
-          <Card className="p-8 shadow-soft">
+          <Card className="p-8 shadow-soft border-insight-gray">
             <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
@@ -113,6 +113,7 @@ export function LeadForm() {
                       <SelectItem value="integracao-google">Integração Google</SelectItem>
                       <SelectItem value="chatbot">Chatbot WhatsApp/Instagram</SelectItem>
                       <SelectItem value="automacao-vendas">Automação de Vendas</SelectItem>
+                      <SelectItem value="dashboards">Dashboards Inteligentes</SelectItem>
                       <SelectItem value="outros">Outros</SelectItem>
                     </SelectContent>
                   </Select>
@@ -121,7 +122,7 @@ export function LeadForm() {
               
               <Button 
                 type="submit" 
-                variant="tech" 
+                variant="success" 
                 size="lg" 
                 className="w-full text-lg py-4 h-auto"
                 disabled={isSubmitting}

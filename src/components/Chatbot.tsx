@@ -17,7 +17,7 @@ export function Chatbot() {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Olá! Sou a assistente virtual da Insight Digital. Como posso ajudá-lo com automações hoje?',
+      text: 'Olá! Sou a Rebecca, assistente virtual da Insight Digital. Como posso ajudá-lo com automações hoje?',
       sender: 'bot',
       timestamp: new Date()
     }
@@ -42,19 +42,19 @@ export function Chatbot() {
     await sendMessage(message, 'user');
     setInputMessage('');
     
-    // Simple bot logic
+    // Rebecca's intelligent responses
     let botResponse = '';
     
     if (step === 'greeting') {
-      botResponse = 'Perfeito! Para eu te ajudar melhor, qual é o seu nome?';
+      botResponse = 'Que bom falar com você! Para eu personalizar melhor nossa conversa, qual é o seu nome?';
       setStep('name');
     } else if (step === 'name') {
       setUserInfo(prev => ({ ...prev, name: message }));
-      botResponse = `Prazer em conhecê-lo, ${message}! Agora, qual é o seu e-mail?`;
+      botResponse = `Prazer em conhecê-lo, ${message}! Para eu enviar as informações corretas, qual é o seu melhor e-mail?`;
       setStep('email');
     } else if (step === 'email') {
       setUserInfo(prev => ({ ...prev, email: message }));
-      botResponse = 'Ótimo! Que tipo de automação você gostaria de implementar?\n\n1. Integração Google (Sheets, Calendar)\n2. Chatbot WhatsApp/Instagram\n3. Automação de vendas\n4. Outro';
+      botResponse = 'Perfeito! Agora me conta, que tipo de automação você gostaria de implementar no seu negócio?\n\n🤖 Chatbot WhatsApp/Instagram\n📊 Integração Google (Sheets, Calendar)\n💰 Automação de vendas\n📈 Dashboards inteligentes\n❓ Tenho outra necessidade';
       setStep('service');
     } else if (step === 'service') {
       // Send data to n8n webhook
@@ -72,18 +72,18 @@ export function Chatbot() {
           }),
         });
         
-        botResponse = `Excelente! Recebi suas informações:\n\n• Nome: ${userInfo.name}\n• Email: ${userInfo.email}\n• Interesse: ${message}\n\nNossa equipe entrará em contato em breve para apresentar uma solução personalizada!`;
+        botResponse = `Excelente escolha, ${userInfo.name}! 🎉\n\nRecebi suas informações:\n• Nome: ${userInfo.name}\n• Email: ${userInfo.email}\n• Interesse: ${message}\n\nNossa equipe especializada entrará em contato em até 2 horas para apresentar uma solução personalizada para sua empresa!\n\nEnquanto isso, que tal agendar uma demonstração gratuita? 😊`;
         
         toast({
-          title: "Informações enviadas!",
-          description: "Nossa equipe entrará em contato em breve.",
+          title: "Informações enviadas com sucesso!",
+          description: "Rebecca registrou seus dados. Nossa equipe entrará em contato em breve.",
         });
       } catch (error) {
-        botResponse = 'Houve um problema ao enviar suas informações. Pode tentar novamente?';
+        botResponse = 'Ops! Tivemos um probleminha técnico. Pode tentar novamente? Ou se preferir, me chama no WhatsApp!';
       }
     }
     
-    // Simulate bot typing delay
+    // Simulate Rebecca thinking
     setTimeout(() => {
       sendMessage(botResponse, 'bot');
     }, 1000);
@@ -102,9 +102,9 @@ export function Chatbot() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           onClick={() => setIsOpen(!isOpen)}
-          variant="tech"
+          variant="insight"
           size="icon"
-          className="w-14 h-14 rounded-full shadow-blue hover:scale-110 transition-bounce"
+          className="w-14 h-14 rounded-full shadow-insight hover:scale-110 transition-bounce"
         >
           {isOpen ? <X className="w-6 h-6" /> : <MessageCircle className="w-6 h-6" />}
         </Button>
@@ -113,10 +113,10 @@ export function Chatbot() {
       {/* Chat Window */}
       {isOpen && (
         <div className="fixed bottom-24 right-6 z-50 w-80 max-w-[calc(100vw-3rem)]">
-          <Card className="shadow-blue">
+          <Card className="shadow-insight border-insight-gray">
             {/* Header */}
-            <div className="bg-tech-gradient text-white p-4 rounded-t-lg">
-              <h3 className="font-semibold">Assistente Insight Digital</h3>
+            <div className="bg-gradient-insight text-white p-4 rounded-t-lg">
+              <h3 className="font-semibold">Rebecca - Assistente Insight Digital</h3>
               <p className="text-sm opacity-90">Especialista em Automações</p>
             </div>
             
@@ -130,8 +130,8 @@ export function Chatbot() {
                   <div
                     className={`max-w-[80%] p-3 rounded-lg text-sm whitespace-pre-line ${
                       message.sender === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted text-muted-foreground'
+                        ? 'bg-insight-light text-white'
+                        : 'bg-insight-gray text-insight-text'
                     }`}
                   >
                     {message.text}
@@ -141,7 +141,7 @@ export function Chatbot() {
             </div>
             
             {/* Input */}
-            <form onSubmit={handleSubmit} className="p-4 border-t">
+            <form onSubmit={handleSubmit} className="p-4 border-t border-insight-gray">
               <div className="flex gap-2">
                 <Input
                   value={inputMessage}
@@ -149,7 +149,7 @@ export function Chatbot() {
                   placeholder="Digite sua mensagem..."
                   className="flex-1"
                 />
-                <Button type="submit" size="icon" variant="tech">
+                <Button type="submit" size="icon" variant="insight">
                   <Send className="w-4 h-4" />
                 </Button>
               </div>

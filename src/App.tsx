@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { HowItWorks } from "@/components/HowItWorks";
+import { Packages } from "@/components/Packages";
 import { LeadForm } from "@/components/LeadForm";
 import { Testimonials } from "@/components/Testimonials";
 import { FinalCTA } from "@/components/FinalCTA";
@@ -19,8 +20,9 @@ function HomePage() {
   return (
     <main className="min-h-screen">
       <Hero />
-      <Services />
       <HowItWorks />
+      <Services />
+      <Packages />
       <LeadForm />
       <Testimonials />
       <FinalCTA />
