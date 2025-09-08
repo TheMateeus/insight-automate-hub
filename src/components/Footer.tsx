@@ -10,8 +10,8 @@ export function Footer() {
               transformando processos com n8n e integrações inteligentes.
             </p>
             <div className="text-sm text-background/70">
-              <p>📧 contato@insightsdigitalagency.com</p>
-              <p>📱 WhatsApp: (11) 99999-9999</p>
+              <p>📧 insightsdigital.tech@gmail.com</p>
+              <p>📱 WhatsApp: 933 273 186</p>
             </div>
           </div>
           

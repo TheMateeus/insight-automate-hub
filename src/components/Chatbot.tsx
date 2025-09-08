@@ -39,55 +39,32 @@ export function Chatbot() {
   };
 
   const handleUserMessage = async (message: string) => {
-    await sendMessage(message, 'user');
-    setInputMessage('');
-    
-    // Rebecca's intelligent responses
-    let botResponse = '';
-    
-    if (step === 'greeting') {
-      botResponse = 'Que bom falar com você! Para eu personalizar melhor nossa conversa, qual é o seu nome?';
-      setStep('name');
-    } else if (step === 'name') {
-      setUserInfo(prev => ({ ...prev, name: message }));
-      botResponse = `Prazer em conhecê-lo, ${message}! Para eu enviar as informações corretas, qual é o seu melhor e-mail?`;
-      setStep('email');
-    } else if (step === 'email') {
-      setUserInfo(prev => ({ ...prev, email: message }));
-      botResponse = 'Perfeito! Agora me conta, que tipo de automação você gostaria de implementar no seu negócio?\n\n🤖 Chatbot WhatsApp/Instagram\n📊 Integração Google (Sheets, Calendar)\n💰 Automação de vendas\n📈 Dashboards inteligentes\n❓ Tenho outra necessidade';
-      setStep('service');
-    } else if (step === 'service') {
-      // Send data to n8n webhook
-      try {
-        await fetch('/webhook/chatbot', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            name: userInfo.name,
-            email: userInfo.email,
-            interest: message,
-            timestamp: new Date().toISOString()
-          }),
-        });
-        
-        botResponse = `Excelente escolha, ${userInfo.name}! 🎉\n\nRecebi suas informações:\n• Nome: ${userInfo.name}\n• Email: ${userInfo.email}\n• Interesse: ${message}\n\nNossa equipe especializada entrará em contato em até 2 horas para apresentar uma solução personalizada para sua empresa!\n\nEnquanto isso, que tal agendar uma demonstração gratuita? 😊`;
-        
-        toast({
-          title: "Informações enviadas com sucesso!",
-          description: "Rebecca registrou seus dados. Nossa equipe entrará em contato em breve.",
-        });
-      } catch (error) {
-        botResponse = 'Ops! Tivemos um probleminha técnico. Pode tentar novamente? Ou se preferir, me chama no WhatsApp!';
-      }
-    }
-    
-    // Simulate Rebecca thinking
+  await sendMessage(message, 'user');
+  setInputMessage('');
+
+  try {
+    // Enviar a mensagem para o agente IA (Rebecca) no n8n
+    const response = await fetch('https://primary-production-2d57a.up.railway.app/webhook-test/chatbot-rebecca', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+
+    const data = await response.json();
+
+    // O n8n retorna a resposta da Rebecca
+    const botResponse = data.reply || "Desculpe, estou com dificuldades técnicas 😅";
+
+    // Mostrar no chat
     setTimeout(() => {
       sendMessage(botResponse, 'bot');
     }, 1000);
-  };
+
+  } catch (error) {
+    sendMessage("Ops! Houve um erro na conexão com a Rebecca. Pode tentar novamente?", 'bot');
+  }
+};
+
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
